@@ -70,7 +70,7 @@ describe('bookshelf plugin', function () {
     });
   });
 
-  it('should load a good configuration', function () {
+  it('should load a good configuration with plugin as string', function () {
     var server = new Hapi.Server();
 
     server.register([
@@ -85,6 +85,38 @@ describe('bookshelf plugin', function () {
             }
           },
           plugins: ['registry'],
+          models: path.join(__dirname + '/models'),
+          base: function (bookshelf) {
+            return bookshelf.Model.extend({
+              test: 'test'
+            });
+          }
+        }
+      }
+    ], function (err) {
+      expect(err).to.be.undefined;
+      expect(server.plugins.bookshelf.model('User')).to.be.a('function');
+      expect(server.plugins.bookshelf.model('Role')).to.be.undefined;
+      var User = server.plugins.bookshelf.model('User').forge({ id: 1 });
+      expect(User.test).to.eql('test');
+    });
+  });
+
+  it('should load a good configuration with plugin as object', function () {
+    var server = new Hapi.Server();
+
+    server.register([
+      {
+        register: require('../lib/'),
+        options: {
+          knex: {
+            client: 'sqlite3',
+            useNullAsDefault: true,
+            connection: {
+              filename: './database.sqlite'
+            }
+          },
+          plugins: [{ name: 'registry' }],
           models: path.join(__dirname + '/models'),
           base: function (bookshelf) {
             return bookshelf.Model.extend({
