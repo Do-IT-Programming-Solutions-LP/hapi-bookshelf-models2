@@ -1,3 +1,15 @@
+#### 2.0.1 (2017-07-10)
+
+##### Chores
+
+* **plugins:** add accepting configurable plugins ([96ad4494](https://github.com/Do-IT-Programming-Solutions-LP/hapi-bookshelf-models2/commit/96ad449482ab67f4c765f9090c8b10b801103d6d))
+* **errors:** report original error if models/collections fail ([222a658e](https://github.com/Do-IT-Programming-Solutions-LP/hapi-bookshelf-models2/commit/222a658e08a2c59085d9f60eee98b1cd1fd34bda))
+* **lint:** replace jscs and jshint with eslint ([52357827](https://github.com/Do-IT-Programming-Solutions-LP/hapi-bookshelf-models2/commit/523578276a8a24431fa269ce9113594d5ace48f1))
+
+##### Documentation Changes
+
+* **contributing:** add CONTRIBUTING.md ([b8c0289a](https://github.com/Do-IT-Programming-Solutions-LP/hapi-bookshelf-models2/commit/b8c0289a1c2f1fd1e589b3201b6dc3092381e8be))
+
 ## 2.0.0 (2016-6-4)
 
 ##### Chores
