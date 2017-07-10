@@ -1,5 +1,5 @@
 {
-  "name": "hapi-bookshelf-models",
+  "name": "hapi-bookshelf-models2",
   "version": "2.0.0",
   "description": "Hapi Plugin to Register Bookshelf Models",
   "main": "lib/index.js",
@@ -14,18 +14,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/lob/hapi-bookshelf-models.git"
+    "url": "https://github.com/Do-IT-Programming-Solutions-LP/hapi-bookshelf-models2.git"
   },
   "keywords": [
     "hapi",
     "bookshelf"
   ],
-  "author": "Peter Nagel <peter@lob.com>",
+  "author": "Max Rostov <ktulchonok@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/lob/hapi-bookshelf-models/issues"
+    "url": "https://github.com/Do-IT-Programming-Solutions-LP/hapi-bookshelf-models2/issues"
   },
-  "homepage": "https://github.com/lob/hapi-bookshelf-models",
+  "homepage": "https://github.com/Do-IT-Programming-Solutions-LP/hapi-bookshelf-models2",
   "dependencies": {
     "glob": "^5.0.15",
     "joi": "^6.10.1"
