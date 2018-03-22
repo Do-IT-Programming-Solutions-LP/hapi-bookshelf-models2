@@ -1,3 +1,7 @@
+### 3.1.0 (2018-03-22)
+
+* **dependencies:** Update dependencies and js code style
+
 #### 2.0.1 (2018-3-22)
 
 ##### Chores
