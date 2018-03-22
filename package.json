@@ -1,16 +1,14 @@
 {
   "name": "hapi-bookshelf-models2",
-  "version": "2.0.3",
+  "version": "3.0.0",
   "description": "Hapi Plugin to Register Bookshelf Models",
   "main": "lib/index.js",
   "scripts": {
-    "coveralls": "gulp coveralls",
-    "enforce": "gulp enforce",
     "lint": "eslint .",
-    "release:major": "changelog -M && git add CHANGELOG.md && git commit -m 'updated CHANGELOG.md' && npm version major && git push origin && git push origin --tags",
-    "release:minor": "changelog -m && git add CHANGELOG.md && git commit -m 'updated CHANGELOG.md' && npm version minor && git push origin && git push origin --tags",
-    "release:patch": "changelog -p && git add CHANGELOG.md && git commit -m 'updated CHANGELOG.md' && npm version patch && git push origin && git push origin --tags",
-    "test": "gulp test"
+    "release:major": "./node_modules/.bin/changelog -M && git add CHANGELOG.md && git commit -m 'updated CHANGELOG.md' && npm version major && git push origin && git push origin --tags",
+    "release:minor": "./node_modules/.bin/changelog -m && git add CHANGELOG.md && git commit -m 'updated CHANGELOG.md' && npm version minor && git push origin && git push origin --tags",
+    "release:patch": "./node_modules/.bin/changelog -p && git add CHANGELOG.md && git commit -m 'updated CHANGELOG.md' && npm version patch && git push origin && git push origin --tags",
+    "test": "./node_modules/.bin/mocha"
   },
   "repository": {
     "type": "git",
@@ -27,29 +25,24 @@
   },
   "homepage": "https://github.com/Do-IT-Programming-Solutions-LP/hapi-bookshelf-models2",
   "dependencies": {
-    "glob": "^5.0.15",
-    "joi": "^6.10.1"
+    "glob": "^7.1.2",
+    "joi": "^13.1.2"
   },
   "peerDependencies": {
     "bookshelf": "0.x",
     "knex": "0.x"
   },
   "devDependencies": {
-    "chai": "^1.10.0",
-    "eslint": "^1.10.3",
-    "eslint-config-lob": "^1.0.1",
-    "generate-changelog": "^1.0.0",
-    "gulp": "^3.8.10",
-    "gulp-clean": "^0.3.1",
-    "gulp-coveralls": "^0.1.3",
-    "gulp-exit": "0.0.2",
-    "gulp-istanbul": "^0.5.0",
-    "gulp-istanbul-enforcer": "^1.0.3",
-    "gulp-load-plugins": "^0.8.0",
-    "gulp-mocha": "^2.0.0",
-    "hapi": "8.x.x || 9.x.x || 10.x.x",
-    "istanbul": "^0.3.5",
-    "mocha": "^2.1.0",
-    "sqlite3": "^3.0.4"
+    "bookshelf": "^0.12.1",
+    "chai": "^4.1.2",
+    "chai-as-promised": "^7.1.1",
+    "eslint": "^4.18.2",
+    "eslint-config-lob": "^3.0.0",
+    "generate-changelog": "^1.7.0",
+    "hapi": "^17.2.2",
+    "istanbul": "^0.4.5",
+    "knex": "^0.14.4",
+    "mocha": "^5.0.4",
+    "sqlite3": "^3.1.13"
   }
 }

@@ -1,8 +1,9 @@
-#### 2.0.3 (2017-07-10)
+#### 2.0.1 (2018-3-22)
 
-#### 2.0.2 (2017-07-10)
+##### Chores
 
-#### 2.0.1 (2017-07-10)
+* **dependencies:** Remove all gulp related packages and replace it with npm scripts
+- Update code to support es6 features
 
 ##### Chores
 
