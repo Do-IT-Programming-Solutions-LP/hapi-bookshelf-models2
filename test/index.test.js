@@ -1,17 +1,21 @@
 'use strict';
 
-var expect = require('chai').expect;
-var Hapi   = require('hapi');
-var path   = require('path');
+const chai           = require('chai');
+const chaiAsPromised = require('chai-as-promised');
+const Hapi           = require('hapi');
+const path           = require('path');
 
-describe('bookshelf plugin', function () {
+chai.use(chaiAsPromised);
+const expect = chai.expect;
 
-  it('should fail to load with bad knex options', function () {
-    var server = new Hapi.Server();
+describe('bookshelf plugin', () => {
 
-    server.register([
+  it('should fail to load with bad knex options', () => {
+    const server = new Hapi.Server();
+
+    expect(server.register([
       {
-        register: require('../lib/'),
+        plugin: require('../lib/'),
         options: {
           knex: {
             client: 'fake_client'
@@ -22,17 +26,15 @@ describe('bookshelf plugin', function () {
           }
         }
       }
-    ], function (err) {
-      expect(err).to.be.instanceof(Error);
-    });
+    ])).to.be.rejectedWith(Error);
   });
 
-  it('should fail to load with bad models path', function () {
-    var server = new Hapi.Server();
+  it('should fail to load with bad models path', () => {
+    const server = new Hapi.Server();
 
-    server.register([
+    expect(server.register([
       {
-        register: require('../lib/'),
+        plugin: require('../lib/'),
         options: {
           knex: {},
           models: 'asdf',
@@ -41,17 +43,15 @@ describe('bookshelf plugin', function () {
           }
         }
       }
-    ], function (err) {
-      expect(err).to.be.instanceof(Error);
-    });
+    ])).to.be.rejectedWith(Error);
   });
 
-  it('should fail to load with bad schema', function () {
-    var server = new Hapi.Server();
+  it('should fail to load with bad schema', () => {
+    const server = new Hapi.Server();
 
-    server.register([
+    expect(server.register([
       {
-        register: require('../lib/'),
+        plugin: require('../lib/'),
         options: {
           knex: {
             client: 'pg',
@@ -65,17 +65,15 @@ describe('bookshelf plugin', function () {
           plugins: 'asdf'
         }
       }
-    ], function (err) {
-      expect(err).to.be.instanceof(Error);
-    });
+    ])).to.be.rejectedWith(Error);
   });
 
-  it('should load a good configuration with plugin as string', function () {
-    var server = new Hapi.Server();
+  it('should load a good configuration with plugin as string', () => {
+    const server = new Hapi.Server();
 
-    server.register([
+    expect(server.register([
       {
-        register: require('../lib/'),
+        plugin: require('../lib/'),
         options: {
           knex: {
             client: 'sqlite3',
@@ -85,7 +83,7 @@ describe('bookshelf plugin', function () {
             }
           },
           plugins: ['registry'],
-          models: path.join(__dirname + '/models'),
+          models: path.join(`${__dirname}/models`),
           base: function (bookshelf) {
             return bookshelf.Model.extend({
               test: 'test'
@@ -93,21 +91,20 @@ describe('bookshelf plugin', function () {
           }
         }
       }
-    ], function (err) {
-      expect(err).to.be.undefined;
-      expect(server.plugins.bookshelf.model('User')).to.be.a('function');
-      expect(server.plugins.bookshelf.model('Role')).to.be.undefined;
-      var User = server.plugins.bookshelf.model('User').forge({ id: 1 });
-      expect(User.test).to.eql('test');
-    });
+    ])).to.be.fulfilled;
+
+    expect(server.plugins.bookshelf.model('User')).to.be.a('function');
+    expect(server.plugins.bookshelf.model('Role')).to.be.undefined;
+    const User = server.plugins.bookshelf.model('User').forge({ id: 1 });
+    expect(User.test).to.eql('test');
   });
 
-  it('should load a good configuration with plugin as object', function () {
-    var server = new Hapi.Server();
+  it('should load a good configuration with plugin as object', () => {
+    const server = new Hapi.Server();
 
-    server.register([
+    expect(server.register([
       {
-        register: require('../lib/'),
+        plugin: require('../lib/'),
         options: {
           knex: {
             client: 'sqlite3',
@@ -117,7 +114,7 @@ describe('bookshelf plugin', function () {
             }
           },
           plugins: [{ name: 'registry' }],
-          models: path.join(__dirname + '/models'),
+          models: path.join(`${__dirname}/models`),
           base: function (bookshelf) {
             return bookshelf.Model.extend({
               test: 'test'
@@ -125,21 +122,20 @@ describe('bookshelf plugin', function () {
           }
         }
       }
-    ], function (err) {
-      expect(err).to.be.undefined;
-      expect(server.plugins.bookshelf.model('User')).to.be.a('function');
-      expect(server.plugins.bookshelf.model('Role')).to.be.undefined;
-      var User = server.plugins.bookshelf.model('User').forge({ id: 1 });
-      expect(User.test).to.eql('test');
-    });
+    ])).to.be.fulfilled;
+
+    expect(server.plugins.bookshelf.model('User')).to.be.a('function');
+    expect(server.plugins.bookshelf.model('Role')).to.be.undefined;
+    const User = server.plugins.bookshelf.model('User').forge({ id: 1 });
+    expect(User.test).to.eql('test');
   });
 
-  it('should load a good configuration with relative path', function () {
-    var server = new Hapi.Server();
+  it('should load a good configuration with relative path', () => {
+    const server = new Hapi.Server();
 
-    server.register([
+    expect(server.register([
       {
-        register: require('../lib/'),
+        plugin: require('../lib/'),
         options: {
           knex: {
             client: 'sqlite3',
@@ -157,21 +153,20 @@ describe('bookshelf plugin', function () {
           }
         }
       }
-    ], function (err) {
-      expect(err).to.be.undefined;
-      expect(server.plugins.bookshelf.model('User')).to.be.a('function');
-      expect(server.plugins.bookshelf.model('Role')).to.be.undefined;
-      var User = server.plugins.bookshelf.model('User').forge({ id: 1 });
-      expect(User.test).to.eql('test');
-    });
+    ])).to.be.fulfilled;
+
+    expect(server.plugins.bookshelf.model('User')).to.be.a('function');
+    expect(server.plugins.bookshelf.model('Role')).to.be.undefined;
+    const User = server.plugins.bookshelf.model('User').forge({ id: 1 });
+    expect(User.test).to.eql('test');
   });
 
-  it('should load a good configuration with glob', function () {
-    var server = new Hapi.Server();
+  it('should load a good configuration with glob', () => {
+    const server = new Hapi.Server();
 
-    server.register([
+    expect(server.register([
       {
-        register: require('../lib/'),
+        plugin: require('../lib/'),
         options: {
           knex: {
             client: 'sqlite3',
@@ -182,8 +177,8 @@ describe('bookshelf plugin', function () {
           },
           plugins: ['registry'],
           models: [
-            path.join(__dirname + '/models/*.js'),
-            path.join(__dirname + '/models/subfolder/*.js')
+            path.join(`${__dirname}/models/*.js`),
+            path.join(`${__dirname}/models/subfolder/*.js`)
           ],
           base: function (bookshelf) {
             return bookshelf.Model.extend({
@@ -192,21 +187,20 @@ describe('bookshelf plugin', function () {
           }
         }
       }
-    ], function (err) {
-      expect(err).to.be.undefined;
-      expect(server.plugins.bookshelf.model('User')).to.be.a('function');
-      expect(server.plugins.bookshelf.model('Role')).to.be.a('function');
-      var User = server.plugins.bookshelf.model('User').forge({ id: 1 });
-      expect(User.test).to.eql('test');
-    });
+    ])).to.be.fulfilled;
+
+    expect(server.plugins.bookshelf.model('User')).to.be.a('function');
+    expect(server.plugins.bookshelf.model('Role')).to.be.a('function');
+    const User = server.plugins.bookshelf.model('User').forge({ id: 1 });
+    expect(User.test).to.eql('test');
   });
 
-  it('should load a good configuration with recursive glob as array', function () {
-    var server = new Hapi.Server();
+  it('should load a good configuration with recursive glob as array', () => {
+    const server = new Hapi.Server();
 
-    server.register([
+    expect(server.register([
       {
-        register: require('../lib/'),
+        plugin: require('../lib/'),
         options: {
           knex: {
             client: 'sqlite3',
@@ -216,7 +210,7 @@ describe('bookshelf plugin', function () {
             }
           },
           plugins: ['registry'],
-          models: [path.join(__dirname + '/models/**/*.js')],
+          models: [path.join(`${__dirname}/models/**/*.js`)],
           base: function (bookshelf) {
             return bookshelf.Model.extend({
               test: 'test'
@@ -224,21 +218,20 @@ describe('bookshelf plugin', function () {
           }
         }
       }
-    ], function (err) {
-      expect(err).to.be.undefined;
-      expect(server.plugins.bookshelf.model('User')).to.be.a('function');
-      expect(server.plugins.bookshelf.model('Role')).to.be.a('function');
-      var User = server.plugins.bookshelf.model('User').forge({ id: 1 });
-      expect(User.test).to.eql('test');
-    });
+    ])).to.be.fulfilled;
+
+    expect(server.plugins.bookshelf.model('User')).to.be.a('function');
+    expect(server.plugins.bookshelf.model('Role')).to.be.a('function');
+    const User = server.plugins.bookshelf.model('User').forge({ id: 1 });
+    expect(User.test).to.eql('test');
   });
 
-  it('should load a good configuration with recursive glob as string', function () {
-    var server = new Hapi.Server();
+  it('should load a good configuration with recursive glob as string', () => {
+    const server = new Hapi.Server();
 
-    server.register([
+    expect(server.register([
       {
-        register: require('../lib/'),
+        plugin: require('../lib/'),
         options: {
           knex: {
             client: 'sqlite3',
@@ -248,7 +241,7 @@ describe('bookshelf plugin', function () {
             }
           },
           plugins: ['registry'],
-          models: path.join(__dirname + '/models/**/*.js'),
+          models: path.join(`${__dirname}/models/**/*.js`),
           base: function (bookshelf) {
             return bookshelf.Model.extend({
               test: 'test'
@@ -256,21 +249,20 @@ describe('bookshelf plugin', function () {
           }
         }
       }
-    ], function (err) {
-      expect(err).to.be.undefined;
-      expect(server.plugins.bookshelf.model('User')).to.be.a('function');
-      expect(server.plugins.bookshelf.model('Role')).to.be.a('function');
-      var User = server.plugins.bookshelf.model('User').forge({ id: 1 });
-      expect(User.test).to.eql('test');
-    });
+    ])).to.be.fulfilled;
+
+    expect(server.plugins.bookshelf.model('User')).to.be.a('function');
+    expect(server.plugins.bookshelf.model('Role')).to.be.a('function');
+    const User = server.plugins.bookshelf.model('User').forge({ id: 1 });
+    expect(User.test).to.eql('test');
   });
 
-  it('should load a good configuration with absolute path as string', function () {
-    var server = new Hapi.Server();
+  it('should load a good configuration with absolute path as string', () => {
+    const server = new Hapi.Server();
 
-    server.register([
+    expect(server.register([
       {
-        register: require('../lib/'),
+        plugin: require('../lib/'),
         options: {
           knex: {
             client: 'sqlite3',
@@ -280,7 +272,7 @@ describe('bookshelf plugin', function () {
             }
           },
           plugins: ['registry'],
-          models: path.join(__dirname + '/models/user.js'),
+          models: path.join(`${__dirname}/models/user.js`),
           base: function (bookshelf) {
             return bookshelf.Model.extend({
               test: 'test'
@@ -288,20 +280,19 @@ describe('bookshelf plugin', function () {
           }
         }
       }
-    ], function (err) {
-      expect(err).to.be.undefined;
-      expect(server.plugins.bookshelf.model('User')).to.be.a('function');
-      var User = server.plugins.bookshelf.model('User').forge({ id: 1 });
-      expect(User.test).to.eql('test');
-    });
+    ])).that.be.fulfilled;
+
+    expect(server.plugins.bookshelf.model('User')).to.be.a('function');
+    const User = server.plugins.bookshelf.model('User').forge({ id: 1 });
+    expect(User.test).to.eql('test');
   });
 
-  it('should load a good configuration with absolute paths as array', function () {
-    var server = new Hapi.Server();
+  it('should load a good configuration with absolute paths as array', () => {
+    const server = new Hapi.Server();
 
-    server.register([
+    expect(server.register([
       {
-        register: require('../lib/'),
+        plugin: require('../lib/'),
         options: {
           knex: {
             client: 'sqlite3',
@@ -312,8 +303,8 @@ describe('bookshelf plugin', function () {
           },
           plugins: ['registry'],
           models: [
-            path.join(__dirname + '/models/user.js'),
-            path.join(__dirname + '/models/subfolder/role.js')
+            path.join(`${__dirname}/models/user.js`),
+            path.join(`${__dirname}/models/subfolder/role.js`)
           ],
           base: function (bookshelf) {
             return bookshelf.Model.extend({
@@ -322,19 +313,18 @@ describe('bookshelf plugin', function () {
           }
         }
       }
-    ], function (err) {
-      expect(err).to.be.undefined;
-      expect(server.plugins.bookshelf.model('User')).to.be.a('function');
-      expect(server.plugins.bookshelf.model('Role')).to.be.a('function');
-      var User = server.plugins.bookshelf.model('User').forge({ id: 1 });
-      expect(User.test).to.eql('test');
-    });
+    ])).to.be.fulfilled;
+
+    expect(server.plugins.bookshelf.model('User')).to.be.a('function');
+    expect(server.plugins.bookshelf.model('Role')).to.be.a('function');
+    const User = server.plugins.bookshelf.model('User').forge({ id: 1 });
+    expect(User.test).to.eql('test');
   });
 
-  it('should load combination of models', function () {
-    var server = new Hapi.Server();
-    var _baseOptions = {
-      register: require('../lib/'),
+  it('should load combination of models', () => {
+    const server = new Hapi.Server();
+    const _baseOptions = {
+      plugin: require('../lib/'),
       options: {
         knex: {
           client: 'sqlite3',
@@ -353,24 +343,23 @@ describe('bookshelf plugin', function () {
     };
 
     _baseOptions.options.models = [
-      path.join(__dirname + '/models/user.js'),
-      path.join(__dirname + '/models/subfolder/**/*.js')
+      path.join(`${__dirname}/models/user.js`),
+      path.join(`${__dirname}/models/subfolder/**/*.js`)
     ];
-    server.register([_baseOptions], function (err) {
-      expect(err).to.be.undefined;
-      expect(server.plugins.bookshelf.model('User')).to.be.a('function');
-      expect(server.plugins.bookshelf.model('Role')).to.be.a('function');
-      var User = server.plugins.bookshelf.model('User').forge({ id: 1 });
-      expect(User.test).to.eql('test');
-    });
+    expect(server.register([_baseOptions])).to.be.fulfilled;
+
+    expect(server.plugins.bookshelf.model('User')).to.be.a('function');
+    expect(server.plugins.bookshelf.model('Role')).to.be.a('function');
+    const User = server.plugins.bookshelf.model('User').forge({ id: 1 });
+    expect(User.test).to.eql('test');
   });
 
-  it('should load a good configuration without base', function () {
-    var server = new Hapi.Server();
+  it('should load a good configuration without base', () => {
+    const server = new Hapi.Server();
 
-    server.register([
+    expect(server.register([
       {
-        register: require('../lib/'),
+        plugin: require('../lib/'),
         options: {
           knex: {
             client: 'sqlite3',
@@ -380,21 +369,20 @@ describe('bookshelf plugin', function () {
             }
           },
           plugins: ['registry'],
-          models: path.join(__dirname + '/models')
+          models: path.join(`${__dirname}/models`)
         }
       }
-    ], function (err) {
-      expect(err).to.be.undefined;
-      expect(server.plugins.bookshelf.model('User')).to.be.a('function');
-    });
+    ])).to.be.fulfilled;
+
+    expect(server.plugins.bookshelf.model('User')).to.be.a('function');
   });
 
-  it('should allow namespacing', function () {
-    var server = new Hapi.Server();
+  it('should allow namespacing', () => {
+    const server = new Hapi.Server();
 
-    server.register([
+    expect(server.register([
       {
-        register: require('../lib/'),
+        plugin: require('../lib/'),
         options: {
           knex: {
             client: 'sqlite3',
@@ -404,22 +392,21 @@ describe('bookshelf plugin', function () {
             }
           },
           plugins: ['registry'],
-          models: path.join(__dirname + '/models'),
+          models: path.join(`${__dirname}/models`),
           namespace: 'test'
         }
       }
-    ], function (err) {
-      expect(err).to.be.undefined;
-      expect(server.plugins.bookshelf.test.model('User')).to.be.a('function');
-    });
+    ])).to.be.fulfilled;
+
+    expect(server.plugins.bookshelf.test.model('User')).to.be.a('function');
   });
 
-  it('should load a good configuration with base object', function () {
-    var server = new Hapi.Server();
+  it('should load a good configuration with base object', () => {
+    const server = new Hapi.Server();
 
-    server.register([
+    expect(server.register([
       {
-        register: require('../lib/'),
+        plugin: require('../lib/'),
         options: {
           knex: {
             client: 'sqlite3',
@@ -429,7 +416,7 @@ describe('bookshelf plugin', function () {
             }
           },
           plugins: ['registry'],
-          models: path.join(__dirname + '/models'),
+          models: path.join(`${__dirname}/models`),
           base: {
             model: function (bookshelf) {
               return bookshelf.Model.extend({
@@ -439,20 +426,19 @@ describe('bookshelf plugin', function () {
           }
         }
       }
-    ], function (err) {
-      expect(err).to.be.undefined;
-      expect(server.plugins.bookshelf.model('User')).to.be.a('function');
-      var User = server.plugins.bookshelf.model('User').forge({ id: 1 });
-      expect(User.test).to.eql('test');
-    });
+    ])).to.be.fulfilled;
+
+    expect(server.plugins.bookshelf.model('User')).to.be.a('function');
+    const User = server.plugins.bookshelf.model('User').forge({ id: 1 });
+    expect(User.test).to.eql('test');
   });
 
-  it('should load a good configuration with base collection', function () {
-    var server = new Hapi.Server();
+  it('should load a good configuration with base collection', () => {
+    const server = new Hapi.Server();
 
-    server.register([
+    expect(server.register([
       {
-        register: require('../lib/'),
+        plugin: require('../lib/'),
         options: {
           knex: {
             client: 'sqlite3',
@@ -462,8 +448,8 @@ describe('bookshelf plugin', function () {
             }
           },
           plugins: ['registry'],
-          models: path.join(__dirname + '/models'),
-          collections: path.join(__dirname + '/collections'),
+          models: path.join(`${__dirname}/models`),
+          collections: path.join(`${__dirname}/collections`),
           base: {
             collection: function (bookshelf) {
               return bookshelf.Collection.extend({
@@ -473,14 +459,13 @@ describe('bookshelf plugin', function () {
           }
         }
       }
-    ], function (err) {
-      expect(err).to.be.undefined;
-      expect(server.plugins.bookshelf.model('User')).to.be.a('function');
-      expect(server.plugins.bookshelf.collection('Users')).to.be.a('function');
-      var User = server.plugins.bookshelf.model('User').forge({ id: 1 });
-      var Users = server.plugins.bookshelf.collection('Users').forge([User]);
-      expect(Users.test).to.eql('test');
-    });
+    ])).to.be.fulfilled;
+
+    expect(server.plugins.bookshelf.model('User')).to.be.a('function');
+    expect(server.plugins.bookshelf.collection('Users')).to.be.a('function');
+    const User = server.plugins.bookshelf.model('User').forge({ id: 1 });
+    const Users = server.plugins.bookshelf.collection('Users').forge([User]);
+    expect(Users.test).to.eql('test');
   });
 
 });
