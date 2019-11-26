@@ -1,6 +1,6 @@
 {
   "name": "hapi-bookshelf-models2",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "Hapi Plugin to Register Bookshelf Models",
   "main": "lib/index.js",
   "scripts": {
@@ -25,24 +25,24 @@
   },
   "homepage": "https://github.com/Do-IT-Programming-Solutions-LP/hapi-bookshelf-models2",
   "dependencies": {
-    "glob": "^7.1.2",
-    "joi": "^13.1.2"
+    "glob": "^7.1.6",
+    "@hapi/joi": "^16.1.8"
   },
   "peerDependencies": {
     "bookshelf": "0.x",
     "knex": "0.x"
   },
   "devDependencies": {
-    "bookshelf": "^0.12.1",
-    "chai": "^4.1.2",
+    "bookshelf": "^0.15.1",
+    "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
-    "eslint": "^4.18.2",
-    "eslint-config-lob": "^3.0.0",
-    "generate-changelog": "^1.7.0",
-    "hapi": "^17.2.2",
+    "eslint": "^6.7.1",
+    "eslint-config-lob": "^4.0.0",
+    "generate-changelog": "^1.8.0",
+    "@hapi/hapi": "^18.4.0",
     "istanbul": "^0.4.5",
-    "knex": "^0.14.4",
-    "mocha": "^5.0.4",
-    "sqlite3": "^3.1.13"
+    "knex": "^0.19.5",
+    "mocha": "^6.2.2",
+    "sqlite3": "^4.1.0"
   }
 }
